@@ -26,7 +26,19 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-
+    /**
+     * This api endpoint is used to signup/register a new customer in Food Ordering App
+     *
+     * @param signupCustomerRequest this argument contains all the attributes required to create a new customer in the database
+     *
+     * @return ResponseEntity<SignupCustomerResponse> type object along with HttpStatus CREATED
+     *
+     * @throws SignUpRestrictedException if contact number provided already exists in the current database
+     * @throws SignUpRestrictedException if any field other than last name is empty
+     * @throws SignUpRestrictedException If the email ID provided by the customer is not in the correct format
+     * @throws SignUpRestrictedException If the contact number provided by the customer is not in correct format
+     * @throws SignUpRestrictedException If the password provided by the customer is weak
+     */
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/customer/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupCustomerResponse> signup(
@@ -58,6 +70,19 @@ public class CustomerController {
     }
 
 
+    /**
+     * This api endpoint is used to login/SignIn an existing customer
+     *
+     * @param authorization customer credentials in 'Basic Base64<contactNumber:password>' format
+     * @return ResponseEntity<LoginResponse> type object along with HttpStatus OK
+     *"JwtAccessToken” class has been used to generate an access token
+     *returns same the access token in in the Response Header
+     *
+     * @throws AuthenticationFailedException If the Basic authentication is not provided incorrect format
+     * @throws AuthenticationFailedException If the contact number provided by the customer does not exist
+     * @throws AuthenticationFailedException If the password provided by the customer does not match the password in the existing database
+     * @throws AuthenticationFailedException If the Basic authentication is not provided incorrect format
+     */
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/customer/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LoginResponse> login(
@@ -98,6 +123,19 @@ public class CustomerController {
         return new ResponseEntity<LoginResponse>(loginResponse, headers, HttpStatus.OK);
     }
 
+    /**
+     * This api endpoint is used to logout an existing customer
+     *
+     * @param authorization customer login access token in 'Bearer <access-token>' format
+     *
+     * @return ResponseEntity<LogoutResponse> type object along with HttpStatus OK
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/customer/logout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LogoutResponse> logout(
@@ -111,6 +149,21 @@ public class CustomerController {
         return new ResponseEntity<LogoutResponse>(logoutResponse, HttpStatus.OK);
     }
 
+
+    /**
+     * This api endpoint is used to update an existing customer
+     *
+     * @param updateCustomerRequest this argument contains all the attributes required to update a customer in the database
+     * @param authorization customer access token in 'Bearer <access-token>' format
+     *
+     * @return ResponseEntity<UpdateCustomerResponse> type object along with HttpStatus OK
+     *
+     * @throws UpdateCustomerException If firstname field is empty
+     * @throws AuthorizationFailedException if  the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException if validation on customer access token failsf the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     */
     @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, path = "/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdateCustomerResponse> update(
@@ -138,6 +191,22 @@ public class CustomerController {
         return new ResponseEntity<UpdateCustomerResponse>(customerResponse, HttpStatus.OK);
     }
 
+    /**
+     *
+     * This api endpoint is used to update password
+     *
+     * @param updatePasswordRequest this argument contains all the attributes required to update a customer's password in the database
+     * @param authorization customer access token in 'Bearer <access-token>' format
+     *
+     * @return ResponseEntity<UpdatePasswordResponse> type object along with HttpStatus OK
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException f the new password provided by the customer is weak
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws UpdateCustomerException If the old or new password field is empty
+     * @throws UpdateCustomerException If the old password field entered is incorrect
+     */
     @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, path = "/customer/password", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdatePasswordResponse> changePassword(
