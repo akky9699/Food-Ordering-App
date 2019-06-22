@@ -30,7 +30,16 @@ public class OrderService {
     @Autowired
     private CustomerDao customerDao;
 
-
+    /**
+     * This method helps find coupon details by coupon name
+     *
+     * @param couponName Name of the coupon to get the details for
+     *
+     * @return CouponEntity object
+     *
+     * @throws CouponNotFoundException If the coupon name entered by the customer is empty
+     * @throws CouponNotFoundException If the coupon name entered by the customer does not match any coupon that exists in the database
+     */
     public CouponEntity getCouponByCouponName(String couponName) throws CouponNotFoundException {
 
         if (couponName.equals("")) {
@@ -47,6 +56,16 @@ public class OrderService {
     }
 
 
+
+     /**
+     * Returns coupon by coupon UUID
+     *
+     * @param uuid UUID of coupon
+     *
+     * @return CouponEntity object
+     *
+     * @throws CouponNotFoundException If the coupon UUID does not match any coupon that exists in the database
+     */
     public CouponEntity getCouponByCouponId(String uuid) throws CouponNotFoundException {
         CouponEntity couponEntity = couponDao.getCouponByCouponUUID(uuid);
 
@@ -57,18 +76,40 @@ public class OrderService {
         return couponEntity;
     }
 
+
+     /**
+     * Saves given order
+     *
+     * @param orderEntity Order details
+     *
+     * @return OrderEntity object
+     */
+
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderEntity saveOrder(OrderEntity orderEntity) {
         return orderDao.createOrder(orderEntity);
     }
 
 
+    /**
+     * Saves given order and item relation
+     *
+     * @param orderItemEntity Order and item to relate
+     *
+     * @return OrderItemEntity object
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity) {
         return orderItemDao.createOrderItemEntity(orderItemEntity);
     }
 
-
+    /**
+     * Returns orders by customer
+     *
+     * @param customerUUID UUID of customer
+     *
+     * @return List<OrderEntity> object
+     */
     public List<OrderEntity> getOrdersByCustomers(String customerUUID) {
         return orderDao.getOrdersByCustomers(customerDao.getCustomerByUUID(customerUUID));
     }

@@ -8,12 +8,23 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-
+/**
+ * PaymentDao class provides the database access for all the endpoints in payment controller
+ */
 @Repository
 public class PaymentDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
+
+
+
+	/**
+	 * This method helps find all available payment methods
+	 *
+	 * @return List<PaymentEntity> object
+	 */
 
 	public List<PaymentEntity> getAllPaymentMethods() {
 		try {
@@ -23,6 +34,13 @@ public class PaymentDao {
 		}
 	}
 
+	/**
+	 * Returns payment entity for a given UUID
+	 *
+	 * @param uuid UUID of payment entity
+	 *
+	 * @return PaymentEntity object
+	 */
 	public PaymentEntity getPaymentByUUID(String uuid) {
 		try {
 			return entityManager.createNamedQuery("paymentByUUID", PaymentEntity.class).setParameter("uuid", uuid).getSingleResult();

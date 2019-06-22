@@ -24,6 +24,11 @@ public class PaymentController {
 	@Autowired
 	private PaymentService patymentService;
 
+	/**
+	 * This api endpoint is used to retrieve all the payment method present in the database, ordered by their name
+	 *
+	 * @return ResponseEntity<PaymentListResponse> type object along with HttpStatus OK
+	 */
 	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET , path = "/payment" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
