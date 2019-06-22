@@ -73,4 +73,40 @@ public class AddressService {
         return stateEntity;
     }
 
+
+    public List<AddressEntity> getAllAddress(CustomerEntity customerEntity) {
+        return customerEntity.getAddresses();
+    }
+
+
+    public List<StateEntity> getAllStates() {
+        return stateDao.getAllStates();
+    }
+
+
+    public AddressEntity getAddressByUUID(String addressUUID, CustomerEntity customerEntity) throws AddressNotFoundException, AuthorizationFailedException {
+        AddressEntity addressEntity = addressDao.getAddressByUUID(addressUUID);
+
+        if (addressEntity == null) {
+            throw new AddressNotFoundException("ANF-003", "No address by this id");
+        }
+
+        if (!addressEntity.getCustomer().getUuid().equals(customerEntity.getUuid())) {
+            throw new AuthorizationFailedException("ATHR-004", "You are not authorized to view/update/delete any one else's address");
+        }
+
+        return addressEntity;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public AddressEntity deleteAddress(AddressEntity addressEntity) {
+        List<OrderEntity> ordersEntityList = ordersDao.getOrdersByAddress(addressEntity);
+        if (ordersEntityList == null || ordersEntityList.isEmpty()) {
+            return addressDao.deleteAddressEntity(addressEntity);
+        }
+
+        addressEntity.setActive(0);
+        return addressDao.updateAddressEntity(addressEntity);
+    }
 }
