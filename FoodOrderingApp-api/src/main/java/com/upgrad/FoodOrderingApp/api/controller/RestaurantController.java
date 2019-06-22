@@ -221,5 +221,25 @@ public class RestaurantController {
     }
 
 
+    @CrossOrigin
+    @RequestMapping(method = RequestMethod.PUT, path = "/restaurant/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RestaurantUpdatedResponse> updateRestaurantDetails(
+            @RequestParam(name = "customer_rating") final Double customerRating,
+            @PathVariable("restaurant_id") final String restaurantId,
+            @RequestHeader("authorization") final String authorization)
+            throws AuthorizationFailedException, RestaurantNotFoundException, InvalidRatingException
+    {
 
+        String accessToken = authorization.split("Bearer ")[1];
+        customerService.getCustomer(accessToken);
+
+        RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(restaurantId);
+
+        RestaurantEntity updatedRestaurantEntity = restaurantService.updateRestaurantRating(restaurantEntity, customerRating);
+
+        RestaurantUpdatedResponse restaurantUpdatedResponse = new RestaurantUpdatedResponse()
+                .id(UUID.fromString(restaurantId))
+                .status("RESTAURANT RATING UPDATED SUCCESSFULLY");
+        return new ResponseEntity<RestaurantUpdatedResponse>(restaurantUpdatedResponse, HttpStatus.OK);
+    }
 }

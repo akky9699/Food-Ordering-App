@@ -80,4 +80,19 @@ public class RestaurantService {
     }
 
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public RestaurantEntity updateRestaurantRating(RestaurantEntity restaurantEntity, Double newRating) throws InvalidRatingException {
+
+        if (newRating < 1.0 || newRating > 5.0) {
+            throw new InvalidRatingException("IRE-001", "Restaurant should be in the range of 1 to 5");
+        }
+
+        Double newAverageRating = Math.round(
+                (newRating / (restaurantEntity.getNumberCustomersRated() + 1)
+                        + restaurantEntity.getCustomerRating()) * 100.0) / 100.0;
+        restaurantEntity.setNumberCustomersRated(restaurantEntity.getNumberCustomersRated() + 1);
+        restaurantEntity.setCustomerRating(newAverageRating);
+
+        return restaurantDao.updateRestaurantEntity(restaurantEntity);
+    }
 }
