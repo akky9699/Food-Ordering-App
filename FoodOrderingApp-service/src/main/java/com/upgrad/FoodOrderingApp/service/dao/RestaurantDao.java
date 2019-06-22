@@ -24,4 +24,14 @@ public class RestaurantDao {
     }
 
 
+    public RestaurantEntity getRestaurantByUUID(String uuid) {
+        try {
+            return entityManager.createNamedQuery("restaurantByUUID", RestaurantEntity.class).setParameter("uuid", uuid).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+
+
 }

@@ -22,6 +22,8 @@ public class RestaurantService {
     @Autowired
     private RestaurantDao restaurantDao;
 
+    @Autowired
+    private CategoryDao categoryDao;
 
 
     public List<RestaurantEntity> restaurantsByRating() {
@@ -29,6 +31,53 @@ public class RestaurantService {
     }
 
 
+    public List<RestaurantEntity> restaurantsByName(final String restaurantName) throws RestaurantNotFoundException {
+        if(restaurantName.isEmpty()){
+            throw new RestaurantNotFoundException("RNF-003", "Restaurant name field should not be empty");
+        }
+
+        List<RestaurantEntity> restaurantEntityList = restaurantDao.restaurantsByRating();
+        List<RestaurantEntity> matchingRestaurantEntityList = new ArrayList<RestaurantEntity>();
+        for (RestaurantEntity restaurantEntity : restaurantEntityList) {
+            if (restaurantEntity.getRestaurantName().toLowerCase().contains(restaurantName.toLowerCase())) {
+                matchingRestaurantEntityList.add(restaurantEntity);
+            }
+        }
+
+        return matchingRestaurantEntityList;
+    }
+
+
+    public List<RestaurantEntity> restaurantByCategory(final String categoryId) throws CategoryNotFoundException {
+
+        if (categoryId.equals("")) {
+            throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
+        }
+
+        CategoryEntity categoryEntity = categoryDao.getCategoryByUuid(categoryId);
+
+        if(categoryEntity == null) {
+            throw new CategoryNotFoundException("CNF-002", "No category by this id");
+        }
+
+        List<RestaurantEntity> restaurantEntityList = categoryEntity.getRestaurants();
+        restaurantEntityList.sort(Comparator.comparing(RestaurantEntity::getRestaurantName));
+        return restaurantEntityList;
+    }
+
+
+    public RestaurantEntity restaurantByUUID(String uuid) throws RestaurantNotFoundException {
+        if (uuid.equals("")) {
+            throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
+        }
+
+        RestaurantEntity restaurantEntity = restaurantDao.getRestaurantByUUID(uuid);
+
+        if (restaurantEntity == null) {
+            throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
+        }
+        return restaurantEntity;
+    }
 
 
 }
