@@ -36,6 +36,11 @@ public class RestaurantController {
     private CustomerService customerService;
 
 
+    /**
+     * This api endpoint is used to retrieve list of all restaurants
+     *
+     * @return ResponseEntity<AllRestaurantResponse> type object along with HttpStatus OK
+     */
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantListResponse> getAllRestaurants() {
@@ -77,6 +82,19 @@ public class RestaurantController {
         return new ResponseEntity<RestaurantListResponse>(restaurantListResponse, HttpStatus.OK);
     }
 
+    /**
+     * This api endpoint is used to retrieve list of all restaurants by restaurant name entered in request param
+     *
+     * @param restaurantName Restaurant name to match
+     *
+     * @return ResponseEntity<RestaurantListResponse> type object along with HttpStatus OK
+     *
+     *If there are no restaurants by the name entered by the customer returns null
+     *
+     *Even if there is a partial match, all the restaurants corresponding to that name are returned in alphabetical order of their names.
+     * @throws RestaurantNotFoundException If the restaurant name field entered by the customer is empty
+
+     */
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/name/{restaurant_name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -125,6 +143,18 @@ public class RestaurantController {
         return new ResponseEntity<RestaurantListResponse>(restaurantListResponse, HttpStatus.OK);
     }
 
+    /**
+     * This api endpoint is used to retrieve list of all restaurants by category ID
+     *
+     * @param categoryId UUID of category
+     *
+     * @return ResponseEntity<RestaurantListResponse> type object along with HttpStatus OK
+     *
+     *If there are no restaurants by the name entered by the customer returns null
+     *
+     * @throws CategoryNotFoundException If the category id field entered by the customer is empty
+     * @throws CategoryNotFoundException If there is no category by the uuid entered by the customer
+     */
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/category/{category_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -170,6 +200,18 @@ public class RestaurantController {
     }
 
 
+    /**
+     * This api endpoint is used to retrieve restaurant details by restaurant ID
+     *
+     * @param restaurantId UUID of restaurant
+     *
+     * @return ResponseEntity<RestaurantDetailsResponse> type object along with HttpStatus OK
+     *
+     * @throws RestaurantNotFoundException If the restaurant id field entered by the customer is empty
+     * @throws RestaurantNotFoundException If there is no restaurant by the uuid entered by the customer
+
+
+     */
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantDetailsResponse> getRestaurantById(
@@ -220,6 +262,22 @@ public class RestaurantController {
         return new ResponseEntity<RestaurantDetailsResponse>(restaurantDetailsResponse, HttpStatus.OK);
     }
 
+    /**
+     * This api endpoint is used to update restaurant rating
+     *
+     * @param customerRating Customer rating
+     * @param restaurantId UUID of restaurant entity
+     * @param authorization customer credentials in 'Basic Base64<contactNumber:password>' format
+     *
+     * @return ResponseEntity<RestaurantUpdatedResponse> type object along with HttpStatus OK
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     * @throws RestaurantNotFoundException If the restaurant id field entered by the customer is empty
+     * @throws RestaurantNotFoundException If there is no restaurant by the uuid entered by the customer
+     * @throws InvalidRatingException If the customer rating field entered by the customer is empty or is not in the range of 1 to 5
+     */
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, path = "/restaurant/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
