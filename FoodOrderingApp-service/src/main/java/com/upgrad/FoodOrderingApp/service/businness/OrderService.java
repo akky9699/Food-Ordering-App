@@ -46,4 +46,30 @@ public class OrderService {
         return couponEntity;
     }
 
+
+    public CouponEntity getCouponByCouponId(String uuid) throws CouponNotFoundException {
+        CouponEntity couponEntity = couponDao.getCouponByCouponUUID(uuid);
+
+        if (couponEntity == null) {
+            throw new CouponNotFoundException("CPF-001", "No coupon by this id");
+        }
+
+        return couponEntity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public OrderEntity saveOrder(OrderEntity orderEntity) {
+        return orderDao.createOrder(orderEntity);
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity) {
+        return orderItemDao.createOrderItemEntity(orderItemEntity);
+    }
+
+
+    public List<OrderEntity> getOrdersByCustomers(String customerUUID) {
+        return orderDao.getOrdersByCustomers(customerDao.getCustomerByUUID(customerUUID));
+    }
 }
