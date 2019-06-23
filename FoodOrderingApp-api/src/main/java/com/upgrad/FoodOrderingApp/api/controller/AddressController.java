@@ -43,6 +43,7 @@ public class AddressController {
      * @throws SaveAddressException If the pincode entered is invalid
      * @throws AddressNotFoundException If the state uuid entered does not exist in the database
      */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/address", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SaveAddressResponse> saveAddress(
@@ -78,7 +79,6 @@ public class AddressController {
      * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
      * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
      */
-
 
     @RequestMapping(method = RequestMethod.GET, path = "/address/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AddressListResponse> getAllSavedAddresses(

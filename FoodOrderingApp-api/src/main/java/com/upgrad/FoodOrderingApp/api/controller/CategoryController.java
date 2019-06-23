@@ -21,6 +21,12 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+	/**
+	 * This api endpoint is used to retrieve all the categories present in the database, ordered by their name
+	 *
+	 * @return ResponseEntity<CategoriesListResponse> type object along with HttpStatus OK
+	 * retrieve all the categories present in the database, ordered by their name and display the response
+	 */
 
 	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET, path = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -42,6 +48,16 @@ public class CategoryController {
 		return new ResponseEntity<CategoriesListResponse>(categoriesListResponse, HttpStatus.OK);
 	}
 
+	/**
+	 * This api endpoint is used to retrieve category for given id with all items within that category
+	 *
+	 * @param categoryId ID of category
+	 *
+	 * @return ResponseEntity<CategoryDetailsResponse> type object along with HttpStatus OK
+	 *
+	 * @throws CategoryNotFoundException If the category id field is empty
+	 * @throws CategoryNotFoundException If there are no categories available by the id provided
+	 */
 
 	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET, path = "/category/{category_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

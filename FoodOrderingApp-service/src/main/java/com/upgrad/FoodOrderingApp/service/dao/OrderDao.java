@@ -8,6 +8,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * OrderDao class provides the database access for all the endpoints in order controller
+ */
 
 @Repository
 public class OrderDao {
@@ -15,6 +18,14 @@ public class OrderDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+
+    /**
+     * Returns orders for a given address
+     *
+     * @param addressEntity Address to get orders for
+     *
+     * @return List<OrderEntity> object
+     */
 
     public List<OrderEntity> getOrdersByAddress(AddressEntity addressEntity) {
         try {
@@ -25,11 +36,28 @@ public class OrderDao {
     }
 
 
+
+    /**
+     * Crates new order
+     *
+     * @param orderEntity Order details
+     *
+     * @return OrderEntity object
+     */
+
     public OrderEntity createOrder(OrderEntity orderEntity) {
         entityManager.persist(orderEntity);
         return orderEntity;
     }
 
+
+    /**
+     * Returns orders for a given customer
+     *
+     * @param customerEntity Customer to get orders for
+     *
+     * @return List<OrderEntity> object
+     */
 
     public List<OrderEntity> getOrdersByCustomers(CustomerEntity customerEntity) {
         try {
@@ -39,6 +67,13 @@ public class OrderDao {
         }
     }
 
+    /**
+     * Returns orders for a given restaurant
+     *
+     * @param restaurantEntity Restaurant to get orders for
+     *
+     * @return List<OrderEntity> object
+     */
 
     public List<OrderEntity> getOrdersByRestaurant(RestaurantEntity restaurantEntity) {
         try {
@@ -48,6 +83,12 @@ public class OrderDao {
         }
     }
 
+
+    /**
+     * Gets the coupon details for a particular coupon name
+     * @param couponName Name of coupon to searched
+     * @return CouponEntity object
+     */
 
     public CouponEntity getCouponByName(final String couponName) {
         try {

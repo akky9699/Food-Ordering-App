@@ -24,6 +24,18 @@ public class CustomerService {
     @Autowired
     private PasswordCryptographyProvider passwordCryptographyProvider;
 
+    /**
+     * This method implements the business logic for 'signup' endpoint
+     *
+     * @param customerEntity new customer will be created from given CustomerEntity object
+     *
+     * @return CustomerEntity object
+     *
+     * @throws SignUpRestrictedException If the contact number provided already exists in the current database
+     * @throws SignUpRestrictedException If the email ID provided by the customer is not in the correct format
+     * @throws SignUpRestrictedException If the contact number provided by the customer is not in correct format
+     * @throws SignUpRestrictedException If the password provided by the customer is weak
+     */
 
     @Transactional(propagation = Propagation.REQUIRED)
     public CustomerEntity saveCustomer(CustomerEntity customerEntity) throws SignUpRestrictedException {
@@ -56,6 +68,17 @@ public class CustomerService {
         return customerDao.createCustomer(customerEntity);
     }
 
+    /**
+     * This method implements the business logic for 'login' endpoint
+     *
+     * @param username customer contact number
+     * @param password customer password
+     *
+     * @return CustomerAuthEntity object
+     *
+     * @throws AuthenticationFailedException If the contact number provided by the customer does not exist
+     * @throws AuthenticationFailedException If the password provided by the customer does not match the password in the existing database
+     */
 
     @Transactional(propagation = Propagation.REQUIRED)
     public CustomerAuthEntity authenticate(String username, String password) throws AuthenticationFailedException {
@@ -86,6 +109,17 @@ public class CustomerService {
         }
     }
 
+    /**
+     * This method implements the business logic for 'logout' endpoint
+     *
+     * @param accessToken Customer access token in 'Bearer <access-token>' format
+     *
+     * @return Updated CustomerAuthEntity object
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     */
 
     @Transactional(propagation = Propagation.REQUIRED)
     public CustomerAuthEntity logout(String accessToken) throws AuthorizationFailedException {
@@ -109,6 +143,15 @@ public class CustomerService {
         return customerDao.updateCustomerAuth(customerAuthEntity);
     }
 
+    /**
+     * This method helps find existing customer by access token
+     *
+     * @param accessToken customer access token
+     *
+     * @return CustomerEntity object
+     *
+     * @throws AuthorizationFailedException if access token requesting customer is not valid
+     */
 
     public CustomerEntity getCustomer(String accessToken) throws AuthorizationFailedException {
         CustomerAuthEntity customerAuthEntity = customerDao.getCustomerAuthByAccessToken(accessToken);
@@ -130,12 +173,30 @@ public class CustomerService {
     }
 
 
+    /**
+     * This method updates existing customer
+     *
+     * @param customerEntity CustomerEntity object to update
+     *
+     * @return Updated CustomerEntity object
+     */
 
     @Transactional(propagation = Propagation.REQUIRED)
     public CustomerEntity updateCustomer(CustomerEntity customerEntity) {
         return customerDao.updateCustomerEntity(customerEntity);
     }
 
+    /**
+     * This method updates password of existing customer
+     *
+     * @param oldPassword Customer's old password
+     * @param newPassword Customer's new password
+     * @param customerEntity CustomerEntity object to update
+     *
+     * @return Updated CustomerEntity object
+     *
+     * @throws UpdateCustomerException If validation for old or new password fails
+     */
 
     @Transactional(propagation = Propagation.REQUIRED)
     public CustomerEntity updateCustomerPassword(String oldPassword, String newPassword, CustomerEntity customerEntity) throws UpdateCustomerException {

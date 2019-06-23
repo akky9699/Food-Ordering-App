@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * CategoryListResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-06-22T22:43:25.866+05:30")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-06-23T12:55:41.541+05:30")
 
 public class CategoryListResponse   {
   @JsonProperty("id")

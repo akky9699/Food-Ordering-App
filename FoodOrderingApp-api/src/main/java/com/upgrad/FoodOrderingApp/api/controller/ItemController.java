@@ -25,6 +25,15 @@ public class ItemController {
     @Autowired
     private RestaurantService restaurantService;
 
+    /**
+     * This api endpoint is used to get top 5 items by popularity
+     *
+     * @param restaurantId UUID for restaurant entity
+     *
+     * @return ResponseEntity<ItemListResponse> type object along with HttpStatus OK
+     *
+     * @throws RestaurantNotFoundException If there is no restaurant by the uuid entered by the customer
+     */
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/item/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

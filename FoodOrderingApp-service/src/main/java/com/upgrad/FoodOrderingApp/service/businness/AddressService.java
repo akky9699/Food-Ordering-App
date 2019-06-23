@@ -31,6 +31,18 @@ public class AddressService {
     private OrderDao ordersDao;
 
 
+    /**
+     * This method implements the business logic for 'save address' endpoint
+     *
+     * @param addressEntity new address will be created from given AddressEntity object
+     * @param customerEntity customer whose address is to be updated
+     *
+     * @return AddressEntity object
+     *
+     * @throws SaveAddressException exception If any field is empty
+     * @throws SaveAddressException exception If the pincode entered is invalid
+     */
+
     @Transactional(propagation = Propagation.REQUIRED)
     public AddressEntity saveAddress(AddressEntity addressEntity, CustomerEntity customerEntity) throws SaveAddressException {
 
@@ -65,6 +77,17 @@ public class AddressService {
     }
 
 
+
+    /**
+     * Returns state for a given UUID
+     *
+     * @param stateUUID UUID of state entity
+     *
+     * @return StateEntity object
+     *
+     * @throws AddressNotFoundException If the state uuid entered does not exist in the database
+     */
+
     public StateEntity getStateByUUID(String stateUUID) throws AddressNotFoundException {
         StateEntity stateEntity = stateDao.getStateByUUID(stateUUID);
         if (stateEntity == null) {
@@ -73,16 +96,41 @@ public class AddressService {
         return stateEntity;
     }
 
+    /**
+     * Returns all addresses for a given customer
+     *
+     * @param customerEntity Customer whose addresses are to be returned
+     *
+     * @return List<AddressEntity> object
+     */
 
     public List<AddressEntity> getAllAddress(CustomerEntity customerEntity) {
         return customerEntity.getAddresses();
     }
 
 
+    /**
+     * This method implements the business logic for 'Get All States' endpoint
+     *
+     * @return List<StateEntity> object
+     */
+
     public List<StateEntity> getAllStates() {
         return stateDao.getAllStates();
     }
 
+
+    /**
+     * This method implements the business logic for 'Get Address by Id' endpoint
+     *
+     * @param addressUUID Address UUID
+     * @param customerEntity Customer whose has made request
+     *
+     * @return AddressEntity object
+     *
+     * @throws AddressNotFoundException If address id entered is incorrect
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the user who has logged in is not the same user who has created the address
+     */
 
     public AddressEntity getAddressByUUID(String addressUUID, CustomerEntity customerEntity) throws AddressNotFoundException, AuthorizationFailedException {
         AddressEntity addressEntity = addressDao.getAddressByUUID(addressUUID);
@@ -98,6 +146,13 @@ public class AddressService {
         return addressEntity;
     }
 
+    /**
+     * Deletes given address entity
+     *
+     * @param addressEntity Address to delete
+     *
+     * @return AddressEntity object
+     */
 
     @Transactional(propagation = Propagation.REQUIRED)
     public AddressEntity deleteAddress(AddressEntity addressEntity) {

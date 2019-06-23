@@ -27,6 +27,16 @@ public class ItemService {
     private CategoryDao categoryDao;
 
 
+    /**
+     * Returns item for a given UUID
+     *
+     * @param uuid UUID of item entity
+     *
+     * @return ItemEntity object
+     *
+     * @throws ItemNotFoundException If validation on item fails
+     */
+
     public ItemEntity getItemByUUID(String uuid) throws ItemNotFoundException {
         ItemEntity itemEntity = itemDao.getItemByUUID(uuid);
         if (itemEntity == null) {
@@ -35,11 +45,25 @@ public class ItemService {
         return itemEntity;
     }
 
-
+    /**
+     * Returns items for a given order
+     *
+     * @param orderEntity UUID of order entity
+     *
+     * @return List<OrderItemEntity> object
+     */
     public List<OrderItemEntity> getItemsByOrder(OrderEntity orderEntity) {
         return orderItemDao.getItemsByOrder(orderEntity);
     }
 
+
+    /**
+     * Returns popular items for a restaurant
+     *
+     * @param restaurantEntity UUID of restaurant entity
+     *
+     * @return List<ItemEntity> object
+     */
 
     public List<ItemEntity> getItemsByPopularity(RestaurantEntity restaurantEntity) {
         List<ItemEntity> itemEntityList = new ArrayList<>();
@@ -67,6 +91,15 @@ public class ItemService {
         return sortedItemEntityList;
     }
 
+
+    /**
+     * Returns items by for a given category of a restaurant
+     *
+     * @param restaurantUUID UUID of restaurant entity
+     * @param categoryUUID UUID of category entity
+     *
+     * @return List<ItemEntity> object
+     */
 
     public List<ItemEntity> getItemsByCategoryAndRestaurant(String restaurantUUID, String categoryUUID) {
         RestaurantEntity restaurantEntity = restaurantDao.getRestaurantByUUID(restaurantUUID);

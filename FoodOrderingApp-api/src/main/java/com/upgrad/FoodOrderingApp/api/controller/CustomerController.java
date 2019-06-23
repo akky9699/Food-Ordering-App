@@ -26,6 +26,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
     /**
      * This api endpoint is used to signup/register a new customer in Food Ordering App
      *
@@ -39,6 +40,7 @@ public class CustomerController {
      * @throws SignUpRestrictedException If the contact number provided by the customer is not in correct format
      * @throws SignUpRestrictedException If the password provided by the customer is weak
      */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/customer/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupCustomerResponse> signup(
@@ -83,6 +85,7 @@ public class CustomerController {
      * @throws AuthenticationFailedException If the password provided by the customer does not match the password in the existing database
      * @throws AuthenticationFailedException If the Basic authentication is not provided incorrect format
      */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/customer/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LoginResponse> login(
@@ -164,6 +167,7 @@ public class CustomerController {
      * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
      * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
      */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, path = "/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdateCustomerResponse> update(
@@ -207,6 +211,7 @@ public class CustomerController {
      * @throws UpdateCustomerException If the old or new password field is empty
      * @throws UpdateCustomerException If the old password field entered is incorrect
      */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, path = "/customer/password", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdatePasswordResponse> changePassword(

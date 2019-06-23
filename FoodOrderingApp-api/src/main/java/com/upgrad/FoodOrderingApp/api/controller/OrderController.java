@@ -40,6 +40,21 @@ public class OrderController {
     @Autowired
     private ItemService itemService;
 
+    /**
+     * This api endpoint is used to find coupon details by coupon name
+     *
+     * @param couponName Name of the coupon to get the details for
+     * @param authorization Customer access token in 'Bearer <access-token>' format
+     *
+     * @return ResponseEntity<CouponDetailsResponse> type object along with HttpStatus OK
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     * @throws CouponNotFoundException If the coupon name entered by the customer does not match any coupon that exists in the database
+     * @throws CouponNotFoundException If the coupon name entered by the customer is empty
+     */
+
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/order/coupon/{coupon_name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CouponDetailsResponse> getCouponByCouponName(
@@ -59,6 +74,18 @@ public class OrderController {
         return new ResponseEntity<CouponDetailsResponse>(couponDetailsResponse, HttpStatus.OK);
     }
 
+    /**
+     * This api endpoint is used to find orders by customer
+     *
+     * @param authorization Customer access token in 'Bearer <access-token>' format
+     *
+     * @return ResponseEntity<CustomerOrderResponse> type object along with HttpStatus OK
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+
+     */
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/order", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -137,6 +164,25 @@ public class OrderController {
         return new ResponseEntity<CustomerOrderResponse>(customerOrderResponse, HttpStatus.OK);
     }
 
+    /**
+     * This api endpoint is used to create new order
+     *
+     * @param saveOrderRequest this argument contains all the attributes required to create a new order in the database
+     * @param authorization Customer access token in 'Bearer <access-token>' format
+     *
+     * @return ResponseEntity<SaveOrderResponse> type object along with HttpStatus CREATED
+     *
+     * @throws AuthorizationFailedException If the access token provided by the customer does not exist in the database
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the customer has already logged out
+     * @throws AuthorizationFailedException If the access token provided by the customer exists in the database, but the session has expired
+     * @throws AuthorizationFailedException If the address uuid entered by the customer does not belong to him
+     * @throws CouponNotFoundException If the coupon uuid entered by the customer does not match any coupon that exists in the database
+
+     * @throws AddressNotFoundException If the address uuid entered by the customer does not match any address that exists in the database
+     * @throws PaymentMethodNotFoundException IIf the payment uuid entered by the customer does not match any payment method that exists in the database
+     * @throws RestaurantNotFoundException If there is no restaurant by the restaurant uuid entered by the customer
+     * @throws ItemNotFoundException If there are no items by the item uuid entered by the customer
+     */
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, path = "/order", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

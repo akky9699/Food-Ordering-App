@@ -21,6 +21,11 @@ public class CategoryService {
 	@Autowired
 	private RestaurantDao restaurantDao;
 
+	/**
+	 * This method implements the business logic for 'category' endpoint,ordered by their name
+	 *
+	 * @return List<CategoryEntity> object
+	 */
 
 	public List<CategoryEntity> getAllCategoriesOrderedByName() {
 		return categoryDao.getAllCategories().stream()
@@ -28,6 +33,16 @@ public class CategoryService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * This method implements the business logic for 'getCategoryById' endpoint
+	 *
+	 * @param categoryUuid UUID of category
+	 *
+	 * @return CategoryEntity object
+	 *
+	 * @throws CategoryNotFoundException If the category id field is empty
+	 * @throws CategoryNotFoundException If there are no categories available by the id provided
+	 */
 
 	public CategoryEntity getCategoryById(String categoryUuid) throws CategoryNotFoundException {
 		if (categoryUuid.equals("")) {
@@ -43,6 +58,15 @@ public class CategoryService {
 		return categoryEntity;
 	}
 
+	/**
+	 * Returns all categories for a given restaurant
+	 *
+	 *It sorts categories in alphabetical order
+	 *
+	 * @param restaurantUUID UUID of restaurant entity
+	 *
+	 * @return List<CategoryEntity> object
+	 */
 
 	public List<CategoryEntity> getCategoriesByRestaurant(String restaurantUUID) {
 		RestaurantEntity restaurantEntity = restaurantDao.getRestaurantByUUID(restaurantUUID);

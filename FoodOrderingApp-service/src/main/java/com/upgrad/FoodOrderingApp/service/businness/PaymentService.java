@@ -14,11 +14,26 @@ public class PaymentService {
 	@Autowired
 	private PaymentDao paymentDao;
 
+	/**
+	 * This method implements the business logic for 'payment' endpoint
+	 *
+	 * @return List<PaymentEntity> object
+	 */
 
 	public List<PaymentEntity> getAllPaymentMethods() {
 		return paymentDao.getAllPaymentMethods();
 	}
 
+
+	/**
+	 * Returns payment for given UUID
+	 *
+	 * @param uuid UUID of payment entity
+	 *
+	 * @return PaymentEntity object
+	 *
+	 * @throws PaymentMethodNotFoundException If validation on payment fails
+	 */
 
 	public PaymentEntity getPaymentByUUID(String uuid) throws PaymentMethodNotFoundException {
 		PaymentEntity paymentEntity = paymentDao.getPaymentByUUID(uuid);
