@@ -8,51 +8,59 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+
 @Repository
 public class CustomerDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public CustomerEntity createCustomer(final CustomerEntity customerEntity) {
+
+    public CustomerEntity createCustomer(CustomerEntity customerEntity) {
         entityManager.persist(customerEntity);
         return customerEntity;
     }
 
-    public CustomerAuthEntity createAuthToken(final CustomerAuthEntity customerAuthTokenEntity) {
-        entityManager.persist(customerAuthTokenEntity);
-        return customerAuthTokenEntity;
-    }
 
-    public CustomerEntity findCustomerByContactNumber(final String contact_number) {
+    public CustomerEntity getCustomerByContactNumber(String contactNumber) {
         try {
-            String query = "select u from CustomerEntity u where u.contact_number = :contact_number";
-            return entityManager.createQuery(query, CustomerEntity.class)
-                    .setParameter("contact_number", contact_number).getSingleResult();
+            return entityManager.createNamedQuery("customerByContactNumber", CustomerEntity.class).setParameter("contactNumber", contactNumber).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
     }
 
-    public CustomerEntity findCustomerByEmail(final String email) {
+
+    public CustomerAuthEntity createCustomerAuth(CustomerAuthEntity customerAuthEntity) {
+        entityManager.persist(customerAuthEntity);
+        return customerAuthEntity;
+    }
+
+
+    public CustomerAuthEntity getCustomerAuthByAccessToken(String accessToken) {
         try {
-            String query = "select u from CustomerEntity u where u.email = :email";
-            return entityManager.createQuery(query, CustomerEntity.class)
-                    .setParameter("email", email).getSingleResult();
+            return entityManager.createNamedQuery("customerAuthByAccessToken", CustomerAuthEntity.class).setParameter("accessToken", accessToken).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
     }
 
-    public CustomerAuthEntity findCustomerAuthEntityByAccessToken(final String access_token){
-        try{
-            String query = "select u from CustomerAuthEntity u where u.accessToken = :accessToken";
-            return entityManager.createQuery(query, CustomerAuthEntity.class)
-                    .setParameter("accessToken", access_token).getSingleResult();
+
+    public CustomerAuthEntity updateCustomerAuth(CustomerAuthEntity customerAuthEntity) {
+        return entityManager.merge(customerAuthEntity);
+    }
+
+
+    public CustomerEntity updateCustomerEntity(CustomerEntity customerEntity) {
+        return entityManager.merge(customerEntity);
+    }
+
+
+    public CustomerEntity getCustomerByUUID(String uuid) {
+        try {
+            return entityManager.createNamedQuery("customerByUUID", CustomerEntity.class).setParameter("uuid", uuid).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
     }
-
 }
-

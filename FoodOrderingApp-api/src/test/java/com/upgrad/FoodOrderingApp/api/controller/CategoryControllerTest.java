@@ -1,4 +1,3 @@
-/*
 package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +7,8 @@ import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
+import com.upgrad.FoodOrderingApp.service.entity.*;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,4 +141,3 @@ public class CategoryControllerTest {
 
 
 }
-*/

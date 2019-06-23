@@ -1,4 +1,3 @@
-/*
 package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +7,8 @@ import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
+import com.upgrad.FoodOrderingApp.service.entity.*;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,4 +82,3 @@ public class ItemControllerTest {
     }
 
 }
-*/
