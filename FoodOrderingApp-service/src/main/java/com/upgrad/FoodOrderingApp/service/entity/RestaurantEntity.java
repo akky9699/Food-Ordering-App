@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.RoundingMode;
 
 /**
  * RestaurantEntity class contains all the attributes to be mapped to all the fields in 'restaurant' table in the database
@@ -121,7 +122,7 @@ public class RestaurantEntity implements Serializable {
     }
 
     public void setCustomerRating(Double customerRating) {
-        this.customerRating = new BigDecimal(customerRating);
+        this.customerRating = new BigDecimal(customerRating).setScale(2, RoundingMode.HALF_UP);;
     }
 
     public Integer getAvgPrice() {
